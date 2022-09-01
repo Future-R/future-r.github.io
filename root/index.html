@@ -1,2 +1,87 @@
-﻿<p>Hello</p>
-<title>World</title>
+﻿<!DOCTYPE HTML>
+<html>
+<title>克苏鲁与无限地下城</title>
+<meta charset="utf-8" />
+<body bgcolor="white" onload="init()">
+    <p>【随便写点什么】</br>
+    <p>【再写点儿什么】</p>
+    ༻༻༻༻༻༻༻༻༻༻༻
+    <script type="text/javascript">
+
+        背景色 = "#FFFFF0";
+        document.bgColor = 背景色;
+        //初始化
+        function init() {
+            if (typeof (localStorage.Lv) == "undefined") { localStorage.Lv = 0; }
+            if (typeof (localStorage.lingshi) == "undefined") { localStorage.lingshi = 0; }
+            if (typeof (localStorage.gouBao) == "undefined") { localStorage.gouBao = 0; }
+            show_();
+        }
+        //统一更新数据的显示
+        function show_() {
+            document.form3.label2.value = "调查员等级 " + localStorage.Lv; //更新文本框中的修士等级显示
+            document.form1.label.value = "理智 " + localStorage.lingshi; //更新文本框中的灵石数量显示
+            document.form5.label3.value = "知识 " + localStorage.gouBao; //更新文本框中的狗宝数量显示
+            document.all("Save").style.backgroundColor = "yellow";
+            document.all("daguai").style.backgroundColor = "#70dbdb";
+        }
+        //localStorage.为本地数据存取档
+        //点挖挖灵石的按钮逻辑
+        function Wa_LingShi() {
+            gain_(8); //较低几率参数
+        }
+        //每2秒执行的放置逻辑
+        setInterval(function () { gain_(4); }, 2000); //每2秒执行一次 gain_函数,较高几率参数
+        //点升级的按钮逻辑
+        function Up_lv() {
+            if (localStorage.lingshi >= localStorage.Lv * localStorage.Lv + 5) { //升级所需灵石的公式为 等级*等级+5
+                localStorage.lingshi -= localStorage.Lv * localStorage.Lv + 5; localStorage.Lv++; //扣除灵石,提升等级
+            } else {
+                alert("升级失败!\n升级需要灵石 " + (localStorage.Lv * localStorage.Lv + 5)); //报错弹窗
+            };
+            show_();
+        }
+        //根据传递的灵石几率参数决定收益并显示
+        function gain_(num) {
+            if (Math.floor(Math.random() * 10 + 1) > num) { //根据参数决定获取几率
+                localStorage.lingshi++; //灵石+1
+            }
+            show_();
+        }
+        function pve_1() {
+            if (localStorage.Lv >= 5) {
+                if (Math.floor(Math.random() * 10 + 1) > 5) { //根据参数决定收益几率
+                    localStorage.gouBao++; //狗宝+1
+                }
+            } else { alert("为了你的小命着想...\n等级不到5级就不要出门乱逛了!"); }
+        }
+        //重置存档数据并显示
+        function Clear_() {
+            localStorage.clear(); init();
+            show_();
+        }
+    </script>
+</body>
+<form action=" " name="form1">
+    <input type='text' readonly='readonly' name="label" value="理智 0" />
+</form>
+<form action=" " name="form2">
+    <input type="button" name="wajue" value="入梦" onclick="Wa_LingShi()" />
+</form>
+<form action=" " name="form3">
+    <input type='text' readonly='readonly' name="label2" value="调查员等级 0" />
+</form>
+<form action=" " name="form4">
+    <input type="button" name="shengji" value="调查员升级!" onclick="Up_lv()" />
+</form>
+༻༻༻༻༻༻༻༻༻༻༻
+<form action=" " name="form5">
+    <input type="button" name="daguai" value="探求知识" onclick="pve_1()" /></br>
+    <input type='text' readonly='readonly' name="label3" value="狗宝 0" />
+</form>
+༻༻༻༻༻༻༻༻༻༻༻</br></br>
+<form action=" " name="formX">
+    <input type="button" id="Save" value="清除存档/数据重置!" onclick="Clear_()" />
+</form>
+</html>
+༻༻༻༻༻༻༻༻༻༻༻</br>
